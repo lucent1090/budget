@@ -1,15 +1,25 @@
 import React from 'react'
 import Add from './components/add.js'
+import Currency from './components/currency.js'
+import axios from 'axios'
 import { connect } from 'react-redux'
 import { toggleActive } from './actions/actions.js'
 
 class App extends React.Component{
+
+    componentDidMount () {
+        // axios.get(`http://api.fixer.io/latest?symbols=USD,NTD`)
+        //     .then(res => {
+        //         console.log(res);
+        //     });
+    }
 
     handleActive (idx, e) {
         this.props.dispatch( toggleActive(idx) );
     }
 
     render () {
+
         let { items } = this.props;
         let totalCost = 0;
         let showItems = items.map((val, idx) => {
@@ -28,6 +38,7 @@ class App extends React.Component{
         });
         return(
         	<div>
+                <Currency />
             	<Add />
 
                 <div className="totalCost">
@@ -42,8 +53,10 @@ class App extends React.Component{
     }
 }
 
-function select (state) {
-	return state;
+function getItems (state) {
+	return {
+        items: state.items
+    };
 }
 
-export default connect(select)(App);
+export default connect(getItems)(App);

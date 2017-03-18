@@ -8,7 +8,8 @@ class Add extends React.Component{
 		super(props);
 
 		this.state = {
-			error: [false, false, false, false]
+			error: [false, false, false, false],
+			checkedMoney: ''
 		};
 
 		this.handleAdd = this.handleAdd.bind(this);
@@ -26,10 +27,6 @@ class Add extends React.Component{
 				error[1] = false;
 				this.setState({error: error});
 				return ;
-			case 'currency':
-				error[2] = false;
-				this.setState({error: error});
-				return ;
 			case 'amount':
 				error[3] = false;
 				this.setState({error: error});
@@ -39,12 +36,16 @@ class Add extends React.Component{
 		}
 	}
 
+	handleSelectMoney (val) {
+		this.setState({checkedMoney: val});
+	}
+
 	checkValid () {
 
 		let error = [
 			(this.refs.name.value=="")?true:false ,
 			(this.refs.pricePerUnit.value <= 0)?true:false ,
-			(this.refs.currency.value=="")?true:false ,
+			false ,
 			(this.refs.amount.value <= 0)?true:false
 		];
 		
@@ -61,7 +62,7 @@ class Add extends React.Component{
 				active: true,
 				name: this.refs.name.value,
 				pricePerUnit: this.refs.pricePerUnit.value,
-				currency: this.refs.currency.value,
+				currency: this.state.checkedMoney,
 				amount: this.refs.amount.value
 			};
 
@@ -69,13 +70,23 @@ class Add extends React.Component{
 
 			this.refs.name.value="";
 			this.refs.pricePerUnit.value="";
-			this.refs.currency.value="";
+			this.setState({checkedMoney: ""});
 			this.refs.amount.value=1;
 		}
 		
 	}
 
 	render () {
+		let money = this.props.currencies.map((val, idx) => {
+			return (
+				<label key={idx}>
+				<input type="radio"
+					   checked={this.state.checkedMoney == val}
+					   onChange={this.handleSelectMoney.bind(this, val)} />
+				{val}
+				</label>
+			);
+		});
 		let style = {
 			borderColor: 'red'
 		};
@@ -93,12 +104,8 @@ class Add extends React.Component{
 					   style={this.state.error[1]?style:null}
 					   onChange={this.handleChange.bind(this, 'pricePerUnit')} />
 
-				<input type="text" 
-					   ref="currency"
-				       style={this.state.error[2]?style:null}
-					   placeholder="NTD" 
-					   onChange={this.handleChange.bind(this, 'currency')}/>
-
+				{money}
+				
 				<input type="number" 
 					   ref="amount"
 					   style={this.state.error[3]?style:null}
@@ -113,4 +120,10 @@ class Add extends React.Component{
 	}
 }
 
-export default connect()(Add);
+function getCurrencies (state) {
+	return {
+		currencies: state.currencies
+	};
+}
+
+export default connect(getCurrencies)(Add);

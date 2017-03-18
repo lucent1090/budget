@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({ 
-	items
+	items,
+	currencies
 });
 
-function items(state = [], action) {
+function items (state = [], action) {
 	switch (action.type) {
 		case 'ADD_ITEM':
 			return [
@@ -20,6 +21,23 @@ function items(state = [], action) {
 					}
 					return val;
 				})
+			);
+		default:
+			return state;
+	}
+}
+
+function currencies (state = ['NTD'], action) {
+	switch (action.type) {
+		case 'ADD_CURRENCY':
+			return [
+				...state, action.currency
+			]
+		case 'DEL_CURRENCY':
+			let newState = state.slice(0);
+			newState.splice(action.idx, 1);
+			return (
+				newState
 			);
 		default:
 			return state;
