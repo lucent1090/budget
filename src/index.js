@@ -12,13 +12,13 @@ var unsubscribe = store.subscribe(() => {
   console.log(store.getState())
 });
 let a = {
-	active: true, name: 'A', pricePerUnit: 100, currency: 'NTD', amount: 1
+	active: true, name: 'A', pricePerUnit: 100, currency: 'TWD', amount: 1
 };
 let b = {
-	active: false, name: 'B', pricePerUnit: 300, currency: 'NTD', amount: 2
+	active: false, name: 'B', pricePerUnit: 300, currency: 'JPY', amount: 2
 };
 let c = {
-	active: true, name: 'CCC', pricePerUnit: 400, currency: 'NTD', amount: 1
+	active: true, name: 'CCC', pricePerUnit: 400, currency: 'USD', amount: 1
 };
 
 store.dispatch(addItem(a));

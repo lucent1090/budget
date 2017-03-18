@@ -1,30 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addCurrency, delCurrency } from './../actions/actions.js'
+import { countries } from './country.js'
 
 class Currency extends React.Component{
 
 	constructor (props) {
 		super(props);
 		this.state = {
-			countries: [],
 			selectedCountry: ""
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.handleAddCurrency = this.handleAddCurrency.bind(this);
-	}
-
-	componentDidMount () {
-		// get all supprt currencies
-		let country = {"NTD":"Taiwan", "USD":"United State", "EUR":"Europe"};
-		
-		let supportCountry = [{name: "", fullname: "Select One Country"}];
-		for( let i in country )
-		{
-			supportCountry.push({name:i, fullname:country[i]});
-		}
-		this.setState({countries: supportCountry});
 	}
 
 	handleChange (e) {
@@ -48,7 +36,7 @@ class Currency extends React.Component{
 	}
 
 	render () {
-		let countryArr = this.state.countries.map((val, idx) => {
+		let countryArr = countries.map((val, idx) => {
 			return (
 				<option key={idx} value={val.name}>{val.name+" "+val.fullname}</option>
 			);

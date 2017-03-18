@@ -27,7 +27,7 @@ function items (state = [], action) {
 	}
 }
 
-function currencies (state = ['NTD'], action) {
+function currencies (state = ['TWD'], action) {
 	switch (action.type) {
 		case 'ADD_CURRENCY':
 			return [
