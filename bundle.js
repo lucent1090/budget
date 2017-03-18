@@ -11132,7 +11132,7 @@ var App = function (_React$Component) {
 
         _this.state = {
             base: 'TWD',
-            rate: { "TWDUSD": 0.0327 },
+            rate: {},
             changingBase: false,
             curCheckedBase: ''
         };
@@ -11159,16 +11159,17 @@ var App = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this3 = this;
+
             var addr = "http://apilayer.net/api/live";
             var accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
-            var source = this.state.base;
-            var url = addr + "?access_key=" + accessKey + "&source=" + source;
+            var url = addr + "?access_key=" + accessKey;
 
-            // axios.get(url)
-            //     .then(res => {
-            //         const rates = res.data.quotes;
-            //         this.setState({rate: rates});
-            //     });
+            _axios2.default.get(url).then(function (res) {
+                console.log(res);
+                var rates = res.data.quotes;
+                _this3.setState({ rate: rates });
+            });
         }
     }, {
         key: 'handleActive',
@@ -11190,19 +11191,18 @@ var App = function (_React$Component) {
         }
     }, {
         key: 'currencySwitch',
-        value: function currencySwitch(target, howmuch) {
-            if (this.state.base + target in this.state.rate) {
-                var query0 = this.state.base + target;
-                return howmuch / this.state.rate[query0];
-            } else if (target + this.state.base in this.state.rate) {
-                var query1 = target + this.state.base;
-                return howmuch * this.state.rate[query1];
-            }
+        value: function currencySwitch(cur, howmuch) {
+            // 1. change from cur to USD
+            var query1 = "USD" + cur;
+            var USDprice = howmuch / this.state.rate[query1];
+            // 2. change from USD to base
+            var query2 = "USD" + this.state.base;
+            return USDprice * this.state.rate[query2];
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             var _props = this.props,
                 items = _props.items,
@@ -11212,8 +11212,8 @@ var App = function (_React$Component) {
             var totalCost = 0;
             var showItems = items.map(function (val, idx) {
                 if (val.active) {
-                    if (val.currency != _this3.state.base) {
-                        totalCost = totalCost + _this3.currencySwitch(val.currency, val.pricePerUnit * val.amount);
+                    if (val.currency != _this4.state.base) {
+                        totalCost = totalCost + _this4.currencySwitch(val.currency, val.pricePerUnit * val.amount);
                     } else {
                         totalCost = totalCost + val.pricePerUnit * val.amount;
                     }
@@ -11223,7 +11223,7 @@ var App = function (_React$Component) {
                     { key: idx },
                     _react2.default.createElement('input', { type: 'checkbox',
                         checked: val.active,
-                        onChange: _this3.handleActive.bind(_this3, idx) }),
+                        onChange: _this4.handleActive.bind(_this4, idx) }),
                     val.name + ": " + val.pricePerUnit + "*" + val.amount + " " + val.currency
                 );
             });
@@ -11233,8 +11233,8 @@ var App = function (_React$Component) {
                     'label',
                     { key: idx },
                     _react2.default.createElement('input', { type: 'radio',
-                        checked: _this3.state.curCheckedBase == val,
-                        onChange: _this3.handleChangeBase.bind(_this3, val) }),
+                        checked: _this4.state.curCheckedBase == val,
+                        onChange: _this4.handleChangeBase.bind(_this4, val) }),
                     val
                 );
             });
@@ -26539,8 +26539,8 @@ var c = {
 };
 
 store.dispatch((0, _actions.addItem)(a));
-store.dispatch((0, _actions.addItem)(b));
-store.dispatch((0, _actions.addItem)(c));
+// store.dispatch(addItem(b));
+// store.dispatch(addItem(c));
 
 _reactDom2.default.render(_react2.default.createElement(
 	_reactRedux.Provider,

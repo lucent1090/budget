@@ -22,8 +22,8 @@ let c = {
 };
 
 store.dispatch(addItem(a));
-store.dispatch(addItem(b));
-store.dispatch(addItem(c));
+// store.dispatch(addItem(b));
+// store.dispatch(addItem(c));
 
 ReactDOM.render(
 	<Provider store={store}>

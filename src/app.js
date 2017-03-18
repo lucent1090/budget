@@ -11,7 +11,7 @@ class App extends React.Component{
         super(props);
         this.state = {
             base: 'TWD',
-            rate: {"TWDUSD":0.0327},
+            rate: {},
             changingBase: false,
             curCheckedBase: ''
         };
@@ -32,14 +32,14 @@ class App extends React.Component{
     componentDidMount () {
         let addr = "http://apilayer.net/api/live";
         let accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
-        let source = this.state.base;
-        let url = addr+"?access_key="+accessKey+"&source="+source;
+        let url = addr+"?access_key="+accessKey;
 
-        // axios.get(url)
-        //     .then(res => {
-        //         const rates = res.data.quotes;
-        //         this.setState({rate: rates});
-        //     });
+        axios.get(url)
+            .then(res => {
+                console.log(res);
+                const rates = res.data.quotes;
+                this.setState({rate: rates});
+            });
     }
 
     handleActive (idx, e) {
@@ -60,14 +60,13 @@ class App extends React.Component{
         this.setState({curCheckedBase: val});
     }
 
-    currencySwitch (target, howmuch) {
-        if( (this.state.base+target) in this.state.rate ){
-            let query0 = this.state.base+target;
-            return (howmuch / this.state.rate[query0]);
-        }else if( (target+this.state.base) in this.state.rate ){
-            let query1 = target+this.state.base;
-            return (howmuch*this.state.rate[query1]);
-        }
+    currencySwitch (cur, howmuch) {
+        // 1. change from cur to USD
+        let query1 = "USD"+cur;
+        let USDprice = howmuch / this.state.rate[query1];
+        // 2. change from USD to base
+        let query2 = "USD"+this.state.base;
+        return (USDprice*this.state.rate[query2]);
     }
 
     render () {
