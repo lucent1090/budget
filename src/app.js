@@ -19,7 +19,6 @@ class App extends React.Component{
     }
 
     render () {
-
         let { items } = this.props;
         let totalCost = 0;
         let showItems = items.map((val, idx) => {
@@ -36,6 +35,7 @@ class App extends React.Component{
                     </li>
                 );
         });
+        
         return(
         	<div>
                 <Currency />

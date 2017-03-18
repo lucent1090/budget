@@ -11166,6 +11166,7 @@ var App = function (_React$Component) {
                     val.name + ": " + val.pricePerUnit + "*" + val.amount + " " + val.currency
                 );
             });
+
             return _react2.default.createElement(
                 'div',
                 null,
