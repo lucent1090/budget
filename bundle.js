@@ -11166,7 +11166,6 @@ var App = function (_React$Component) {
             var url = addr + "?access_key=" + accessKey;
 
             _axios2.default.get(url).then(function (res) {
-                console.log(res);
                 var rates = res.data.quotes;
                 _this3.setState({ rate: rates });
             });
@@ -11208,6 +11207,15 @@ var App = function (_React$Component) {
                 items = _props.items,
                 currencies = _props.currencies;
 
+            items.sort(function (a, b) {
+                if (a.active && !b.active) {
+                    return -1;
+                }
+                if (b.active && !a.active) {
+                    return 1;
+                }
+                return 0;
+            });
 
             var totalCost = 0;
             var showItems = items.map(function (val, idx) {
@@ -11224,7 +11232,36 @@ var App = function (_React$Component) {
                     _react2.default.createElement('input', { type: 'checkbox',
                         checked: val.active,
                         onChange: _this4.handleActive.bind(_this4, idx) }),
-                    val.name + ": " + val.pricePerUnit + "*" + val.amount + " " + val.currency
+                    _react2.default.createElement(
+                        'span',
+                        { id: 'name' },
+                        val.name
+                    ),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(
+                        'div',
+                        { id: 'detail' },
+                        _react2.default.createElement(
+                            'span',
+                            { id: 'price' },
+                            val.pricePerUnit
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { id: 'currency' },
+                            val.currency
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { id: 'x' },
+                            'X'
+                        ),
+                        _react2.default.createElement(
+                            'span',
+                            { id: 'amount' },
+                            val.amount
+                        )
+                    )
                 );
             });
 
@@ -11240,25 +11277,33 @@ var App = function (_React$Component) {
             });
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'app' },
                 _react2.default.createElement(_currency2.default, null),
                 _react2.default.createElement(_add2.default, null),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'totalCost' },
-                    'Total cost: ',
-                    totalCost + this.state.base,
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: this.toggleChangeBase },
-                        this.state.changingBase ? "Finish" : "Change Base"
-                    ),
-                    this.state.changingBase ? showCurOption : ""
-                ),
                 _react2.default.createElement(
                     'ul',
                     null,
                     showItems
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'totalCost' },
+                    'Total cost',
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'money' },
+                        totalCost + " " + this.state.base
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'baseOption' },
+                        this.state.changingBase ? showCurOption : ""
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.toggleChangeBase },
+                        this.state.changingBase ? "Finish" : "Change Base"
+                    )
                 )
             );
         }
@@ -11315,7 +11360,7 @@ function items() {
 }
 
 function currencies() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['TWD'];
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['TWD', 'JPY'];
 	var action = arguments[1];
 
 	switch (action.type) {
@@ -12316,20 +12361,24 @@ var Add = function (_React$Component) {
 					placeholder: 'Name',
 					onChange: this.handleChange.bind(this, 'name') }),
 				_react2.default.createElement('input', { type: 'number',
-					placeholder: '0',
+					placeholder: 'Price',
 					ref: 'pricePerUnit',
 					style: this.state.error[1] ? style : null,
 					onChange: this.handleChange.bind(this, 'pricePerUnit') }),
-				money,
 				_react2.default.createElement('input', { type: 'number',
 					ref: 'amount',
 					style: this.state.error[3] ? style : null,
-					placeholder: '1',
+					placeholder: 'Amount',
 					onChange: this.handleChange.bind(this, 'amount') }),
+				_react2.default.createElement(
+					'div',
+					{ className: 'addOption' },
+					money
+				),
 				_react2.default.createElement(
 					'button',
 					{ onClick: this.handleAdd },
-					'ADD'
+					'Add New Plane'
 				)
 			);
 		}
@@ -12957,7 +13006,7 @@ var Currency = function (_React$Component) {
 			});
 			var money = this.props.currencies.map(function (val, idx) {
 				return _react2.default.createElement(
-					'p',
+					'label',
 					{ key: idx,
 						onDoubleClick: _this2.handleDelete.bind(_this2, idx) },
 					val
@@ -12966,24 +13015,24 @@ var Currency = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'currency' },
-				'Currency: (Double click to remove unnecessary currency)',
-				_react2.default.createElement('br', null),
 				_react2.default.createElement(
-					'label',
-					null,
-					'Add new currency:',
-					_react2.default.createElement(
-						'select',
-						{ value: this.state.selectedCountry, onChange: this.handleChange },
-						countryArr
-					),
-					_react2.default.createElement(
-						'button',
-						{ onClick: this.handleAddCurrency },
-						'ADD'
-					)
+					'div',
+					{ className: 'currencyDetail' },
+					'Currency ',
+					money,
+					_react2.default.createElement('br', null),
+					'Double click to remove any unnecessary currency'
 				),
-				money
+				_react2.default.createElement(
+					'select',
+					{ value: this.state.selectedCountry, onChange: this.handleChange },
+					countryArr
+				),
+				_react2.default.createElement(
+					'button',
+					{ onClick: this.handleAddCurrency },
+					'Add New Currency'
+				)
 			);
 		}
 	}]);
@@ -26526,21 +26575,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var store = (0, _redux.createStore)(_reducers2.default);
 var unsubscribe = store.subscribe(function () {
-	console.log(store.getState());
+	// console.log(store.getState())
 });
-var a = {
-	active: true, name: 'A', pricePerUnit: 100, currency: 'TWD', amount: 1
-};
-var b = {
-	active: false, name: 'B', pricePerUnit: 300, currency: 'JPY', amount: 2
-};
-var c = {
-	active: true, name: 'CCC', pricePerUnit: 400, currency: 'USD', amount: 1
-};
-
-store.dispatch((0, _actions.addItem)(a));
-// store.dispatch(addItem(b));
-// store.dispatch(addItem(c));
 
 _reactDom2.default.render(_react2.default.createElement(
 	_reactRedux.Provider,

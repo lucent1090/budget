@@ -36,7 +36,6 @@ class App extends React.Component{
 
         axios.get(url)
             .then(res => {
-                console.log(res);
                 const rates = res.data.quotes;
                 this.setState({rate: rates});
             });
@@ -71,6 +70,15 @@ class App extends React.Component{
 
     render () {
         let { items, currencies } = this.props;
+        items.sort((a, b) => {
+            if(a.active && !b.active){
+                return -1;
+            }
+            if(b.active && !a.active){
+                return 1;
+            }
+            return 0;
+        });
 
         let totalCost = 0;
         let showItems = items.map((val, idx) => {
@@ -86,7 +94,13 @@ class App extends React.Component{
                         <input type="checkbox" 
                                checked={val.active}
                                onChange={this.handleActive.bind(this, idx)} />
-                        {val.name+": "+val.pricePerUnit+"*"+val.amount+" "+val.currency}
+                        <span id="name">{val.name}</span><br/>
+                        <div id="detail">
+                            <span id="price">{val.pricePerUnit}</span>
+                            <span id="currency">{val.currency}</span>
+                            <span id="x">X</span>
+                            <span id="amount">{val.amount}</span>
+                        </div>
                     </li>
                 );
         });
@@ -102,21 +116,24 @@ class App extends React.Component{
                 );
         });
         return(
-        	<div>
+        	<div className="app">
                 <Currency />
             	<Add />
-
-                <div className="totalCost">
-                    Total cost: { totalCost + this.state.base}
-                    <button onClick={this.toggleChangeBase}>
-                        {this.state.changingBase?"Finish":"Change Base"}
-                    </button>
-                    {this.state.changingBase?showCurOption:""}
-                </div>
-
             	<ul>
             	   { showItems }
             	</ul>
+                <div className="totalCost">
+                    Total cost
+                    <div className="money">
+                        { totalCost + " " + this.state.base}
+                    </div>
+                    <div className="baseOption">
+                        {this.state.changingBase?showCurOption:""}
+                    </div>
+                    <button onClick={this.toggleChangeBase}>
+                        {this.state.changingBase?"Finish":"Change Base"}
+                    </button>
+                </div>
         	</div>
         );
     }

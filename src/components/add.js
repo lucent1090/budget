@@ -92,6 +92,7 @@ class Add extends React.Component{
 		};
 		return(
 			<div className="add">
+				
 				<input type="text"
 					   ref="name"
 					   style={this.state.error[0]?style:null}
@@ -99,21 +100,23 @@ class Add extends React.Component{
 					   onChange={this.handleChange.bind(this, 'name')} />
 
 				<input type="number" 
-					   placeholder="0"
+					   placeholder="Price"
 					   ref="pricePerUnit"
 					   style={this.state.error[1]?style:null}
 					   onChange={this.handleChange.bind(this, 'pricePerUnit')} />
 
-				{money}
-				
 				<input type="number" 
 					   ref="amount"
 					   style={this.state.error[3]?style:null}
-					   placeholder="1" 
+					   placeholder="Amount" 
 					   onChange={this.handleChange.bind(this, 'amount')}/>  
+				
+				<div className="addOption">
+					{money}
+				</div>
 
 				<button onClick={this.handleAdd}>
-					ADD
+					Add New Plane
 				</button>
 			</div>
 		);
