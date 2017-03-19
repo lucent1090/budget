@@ -30,7 +30,7 @@ class App extends React.Component{
     }
 
     componentDidMount () {
-        let addr = "http://apilayer.net/api/live";
+        let addr = "https://apilayer.net/api/live";
         let accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
         let url = addr+"?access_key="+accessKey;
 

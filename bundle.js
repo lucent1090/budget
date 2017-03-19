@@ -11161,7 +11161,7 @@ var App = function (_React$Component) {
         value: function componentDidMount() {
             var _this3 = this;
 
-            var addr = "http://apilayer.net/api/live";
+            var addr = "https://apilayer.net/api/live";
             var accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
             var url = addr + "?access_key=" + accessKey;
 
@@ -11360,7 +11360,7 @@ function items() {
 }
 
 function currencies() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['TWD', 'JPY'];
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['TWD'];
 	var action = arguments[1];
 
 	switch (action.type) {
