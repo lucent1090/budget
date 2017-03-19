@@ -1,8 +1,6 @@
 # Budget Book
 A easy budget counting page with currency converter.
 
-Link: [Here](https://lucent1090.github.io/budget/)
-
 ## To Run:
 1. Install npm
 2. Run 'npm install'
@@ -15,4 +13,5 @@ Link: [Here](https://lucent1090.github.io/budget/)
 * Webpack
 * Redux
 
-![image]()
+![image](https://github.com/lucent1090/budget/blob/master/screenshots/1.png)
+![image](https://github.com/lucent1090/budget/blob/master/screenshots/2.png)
