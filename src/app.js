@@ -30,13 +30,14 @@ class App extends React.Component{
     }
 
     componentDidMount () {
-        let addr = "https://apilayer.net/api/live";
+        let addr = "http://apilayer.net/api/live";
         let accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
         let url = addr+"?access_key="+accessKey;
 
         axios.get(url)
             .then(res => {
                 const rates = res.data.quotes;
+                console.log(res);
                 this.setState({rate: rates});
             });
     }

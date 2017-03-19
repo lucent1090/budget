@@ -11161,12 +11161,13 @@ var App = function (_React$Component) {
         value: function componentDidMount() {
             var _this3 = this;
 
-            var addr = "https://apilayer.net/api/live";
+            var addr = "http://apilayer.net/api/live";
             var accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
             var url = addr + "?access_key=" + accessKey;
 
             _axios2.default.get(url).then(function (res) {
                 var rates = res.data.quotes;
+                console.log(res);
                 _this3.setState({ rate: rates });
             });
         }
