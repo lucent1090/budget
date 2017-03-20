@@ -11,7 +11,7 @@ class App extends React.Component{
     constructor (props) {
         super(props);
         this.state = {
-            base: 'TWD',
+            base: 'USD',
             rate: {},
             changingBase: false,
             curCheckedBase: ''
@@ -31,16 +31,25 @@ class App extends React.Component{
     }
 
     componentDidMount () {
-        let addr = "http://apilayer.net/api/live";
-        let accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
-        let url = addr+"?access_key="+accessKey;
+        let addr = "https://api.fixer.io/latest";
+        let base = "?base=" + this.state.base;
 
-        axios.get(url)
+        axios.get(addr+base)
             .then(res => {
-                const rates = res.data.quotes;
-                console.log(res);
+                const rates = res.data.rates;
                 this.setState({rate: rates});
             });
+
+        // Can't use https without paying
+        // let addr = "https://apilayer.net/api/live";
+        // let accessKey = "9cb6793dd9c50dc5befc67e6605be61f";
+        // let url = addr+"?access_key="+accessKey;
+        // axios.get(url)
+        //     .then(res => {
+        //         const rates = res.data.quotes;
+        //         console.log(res);
+        //         this.setState({rate: rates});
+        //     });
     }
 
     
@@ -60,12 +69,15 @@ class App extends React.Component{
     }
 
     currencySwitch (cur, howmuch) {
-        // 1. change from cur to USD
-        let query1 = "USD"+cur;
-        let USDprice = howmuch / this.state.rate[query1];
-        // 2. change from USD to base
-        let query2 = "USD"+this.state.base;
-        return (USDprice*this.state.rate[query2]);
+        return howmuch / this.state.rate[cur];
+
+        // Can't use https without paying
+        // // 1. change from cur to USD
+        // let query1 = "USD"+cur;
+        // let USDprice = howmuch / this.state.rate[query1];
+        // // 2. change from USD to base
+        // let query2 = "USD"+this.state.base;
+        // return (USDprice*this.state.rate[query2]);
     }
 
     render () {

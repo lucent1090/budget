@@ -38,6 +38,10 @@ class Add extends React.Component{
 
 	handleSelectMoney (val) {
 		this.setState({checkedMoney: val});
+
+		let error = this.state.error;
+		error[2] = false;
+		this.setState({error: error});
 	}
 
 	checkValid () {
@@ -45,10 +49,10 @@ class Add extends React.Component{
 		let error = [
 			(this.refs.name.value=="")?true:false ,
 			(this.refs.pricePerUnit.value <= 0)?true:false ,
-			false ,
+			(this.state.checkedMoney=="")?true:false ,
 			(this.refs.amount.value <= 0)?true:false
 		];
-		
+
 		this.setState({error: error});
 		return !error.includes(true);
 	}
@@ -77,9 +81,16 @@ class Add extends React.Component{
 	}
 
 	render () {
+		let style = {
+			borderColor: 'red'
+		};
+		let styleRadio = {
+			color: 'red'
+		};
 		let money = this.props.currencies.map((val, idx) => {
 			return (
-				<label key={idx}>
+				<label key={idx}
+					   style={this.state.error[2]?styleRadio:null}>
 				<input type="radio"
 					   checked={this.state.checkedMoney == val}
 					   onChange={this.handleSelectMoney.bind(this, val)} />
@@ -87,9 +98,7 @@ class Add extends React.Component{
 				</label>
 			);
 		});
-		let style = {
-			borderColor: 'red'
-		};
+		
 		return(
 			<div className="add">
 				

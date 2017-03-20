@@ -90,12 +90,12 @@ html, body .main {
 	background-color: transparent;
 	height: 25px;
 	text-align: center;
-	padding-left: 1em;
 }
 .add input[type='text']::-webkit-input-placeholder,input[type='number']::-webkit-input-placeholder {
 	font-size: 18px;
 	color: seashell;
 	text-align: left;
+	padding-left: 1em;
 }
 .add .addOption {
 	display: block;
@@ -139,7 +139,6 @@ ul li input[type='checkbox'] {
     height: 30px;
     position: relative;
     top: -10px;
-    /*margin: 20px auto;*/
     background: #fcfff4;
     box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 }
@@ -157,7 +156,7 @@ ul li #detail {
 	font-size: 20px;
 }
 ul li #detail input[type='number'] {
-	width: 50px;
+	width: 20%;
 	display: inline;
 	outline: none;
 	border-width: 0px;
