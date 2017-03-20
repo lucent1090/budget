@@ -5,6 +5,22 @@ export function addItem (item) {
 	};
 }
 
+export  function editItem (idx, field, value) {
+	return {
+		type: 'EDIT_ITEM',
+		idx,
+		field,
+		value
+	};
+}
+
+export function delItem (idx) {
+	return {
+		type: 'DEL_ITEM',
+		idx
+	};
+}
+
 export function toggleActive (idx) {
 	return {
 		type: 'TOGGLE_ACTIVE',

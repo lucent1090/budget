@@ -1,6 +1,7 @@
 import React from 'react'
 import Add from './components/add.js'
 import Currency from './components/currency.js'
+import ShowItems from './components/showItems.js'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { toggleActive } from './actions/actions.js'
@@ -42,9 +43,7 @@ class App extends React.Component{
             });
     }
 
-    handleActive (idx, e) {
-        this.props.dispatch( toggleActive(idx) );
-    }
+    
 
     toggleChangeBase () {
         if(  this.state.changingBase 
@@ -71,18 +70,10 @@ class App extends React.Component{
 
     render () {
         let { items, currencies } = this.props;
-        items.sort((a, b) => {
-            if(a.active && !b.active){
-                return -1;
-            }
-            if(b.active && !a.active){
-                return 1;
-            }
-            return 0;
-        });
+        
 
         let totalCost = 0;
-        let showItems = items.map((val, idx) => {
+        items.map((val, idx) => {
                 if( val.active ){
                     if( val.currency != this.state.base ){
                         totalCost = totalCost + this.currencySwitch(val.currency, val.pricePerUnit*val.amount);
@@ -90,20 +81,6 @@ class App extends React.Component{
                         totalCost = totalCost + val.pricePerUnit*val.amount;
                     }
                 }
-                return (
-                    <li key={idx}>
-                        <input type="checkbox" 
-                               checked={val.active}
-                               onChange={this.handleActive.bind(this, idx)} />
-                        <span id="name">{val.name}</span><br/>
-                        <div id="detail">
-                            <span id="price">{val.pricePerUnit}</span>
-                            <span id="currency">{val.currency}</span>
-                            <span id="x">X</span>
-                            <span id="amount">{val.amount}</span>
-                        </div>
-                    </li>
-                );
         });
         
         let showCurOption = currencies.map((val, idx) => {
@@ -120,9 +97,7 @@ class App extends React.Component{
         	<div className="app">
                 <Currency />
             	<Add />
-            	<ul>
-            	   { showItems }
-            	</ul>
+            	<ShowItems />
                 <div className="totalCost">
                     Total cost
                     <div className="money">

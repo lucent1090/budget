@@ -156,6 +156,16 @@ ul li #detail {
 	font-weight: bold;
 	font-size: 20px;
 }
+ul li #detail input[type='number'] {
+	width: 50px;
+	display: inline;
+	outline: none;
+	border-width: 0px;
+	background-color: transparent;
+	color: seashell;
+	font-weight: bold;
+	font-size: 20px;
+}
 ul li #x {
 	margin-left: 5px;
 	margin-right: 5px;

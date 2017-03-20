@@ -12,7 +12,7 @@ function items (state = [], action) {
 				...state, action.item
 			]
 		case 'TOGGLE_ACTIVE':
-			return(
+			return (
 				state.map((val, idx) => {
 					if( idx == action.idx ){
 						return Object.assign({}, val, {
@@ -21,6 +21,29 @@ function items (state = [], action) {
 					}
 					return val;
 				})
+			);
+		case 'EDIT_ITEM':
+			let { field, value } = action;
+			let change;
+			if(field == 'pricePerUnit'){
+				change = {pricePerUnit: value};
+			}
+			if(field == 'amount'){
+				change = {amount: value};
+			}
+			return (
+				state.map((val, idx) => {
+					if( idx == action.idx ){
+						return Object.assign({}, val, change)
+					}
+					return val;
+				})
+			);
+		case 'DEL_ITEM':
+			let newState = state.slice(0);
+			newState.splice(action.idx, 1);
+			return (
+				newState
 			);
 		default:
 			return state;
