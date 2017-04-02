@@ -17,7 +17,8 @@ class ShowItems extends React.Component{
     }
 
     handleDoubleClick (idx, e) {
-    	this.props.dispatch( delItem(idx) );
+        // cancel double click for deleting
+    	// this.props.dispatch( delItem(idx) );
     }
 
 	render () {

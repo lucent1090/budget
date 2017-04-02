@@ -60,6 +60,15 @@ class App extends React.Component{
          && (this.state.curCheckedBase != ""))
         {
             this.setState({base: this.state.curCheckedBase});
+            
+            let addr = "https://api.fixer.io/latest";
+            let base = "?base=" + this.state.curCheckedBase;
+
+            axios.get(addr+base)
+                 .then(res => {
+                    const rates = res.data.rates;
+                    this.setState({rate: rates});
+                });
         }
         this.setState({changingBase: !this.state.changingBase});
     }

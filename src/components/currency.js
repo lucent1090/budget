@@ -44,7 +44,7 @@ class Currency extends React.Component{
 		let money = this.props.currencies.map((val, idx) => {
 			return (
 				<label key={idx} 
-				   onDoubleClick={this.handleDelete.bind(this, idx)}>
+				   onClick={this.handleDelete.bind(this, idx)}>
 				   {val}
 				</label>
 			);
@@ -54,7 +54,7 @@ class Currency extends React.Component{
 				<div className="currencyDetail">
 					Currency {money}
 					<br/>
-					Double click to remove any unnecessary currency
+					Click to remove any unnecessary currency
 				</div>
 				<select value={this.state.selectedCountry} onChange={this.handleChange}>
 					{countryArr}

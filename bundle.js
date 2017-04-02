@@ -11205,8 +11205,18 @@ var App = function (_React$Component) {
     }, {
         key: 'toggleChangeBase',
         value: function toggleChangeBase() {
+            var _this4 = this;
+
             if (this.state.changingBase && this.state.curCheckedBase != this.state.base && this.state.curCheckedBase != "") {
                 this.setState({ base: this.state.curCheckedBase });
+
+                var addr = "https://api.fixer.io/latest";
+                var base = "?base=" + this.state.curCheckedBase;
+
+                _axios2.default.get(addr + base).then(function (res) {
+                    var rates = res.data.rates;
+                    _this4.setState({ rate: rates });
+                });
             }
             this.setState({ changingBase: !this.state.changingBase });
         }
@@ -11231,7 +11241,7 @@ var App = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             var _props = this.props,
                 items = _props.items,
@@ -11241,8 +11251,8 @@ var App = function (_React$Component) {
             var totalCost = 0;
             items.map(function (val, idx) {
                 if (val.active) {
-                    if (val.currency != _this4.state.base) {
-                        totalCost = totalCost + _this4.currencySwitch(val.currency, val.pricePerUnit * val.amount);
+                    if (val.currency != _this5.state.base) {
+                        totalCost = totalCost + _this5.currencySwitch(val.currency, val.pricePerUnit * val.amount);
                     } else {
                         totalCost = totalCost + val.pricePerUnit * val.amount;
                     }
@@ -11254,8 +11264,8 @@ var App = function (_React$Component) {
                     'label',
                     { key: idx },
                     _react2.default.createElement('input', { type: 'radio',
-                        checked: _this4.state.curCheckedBase == val,
-                        onChange: _this4.handleChangeBase.bind(_this4, val) }),
+                        checked: _this5.state.curCheckedBase == val,
+                        onChange: _this5.handleChangeBase.bind(_this5, val) }),
                     val
                 );
             });
@@ -12415,7 +12425,7 @@ exports.default = (0, _reactRedux.connect)(getCurrencies)(Add);
 Object.defineProperty(exports, "__esModule", {
    value: true
 });
-var countries = exports.countries = [{ name: "", fullname: "Choose a currency" }, { name: "USD", fullname: "US dollar" }, { name: "JPY", fullname: "Japanese yen" }, { name: "BGN", fullname: "Bulgarian lev" }, { name: "CZK", fullname: "Czech koruna" }, { name: "DKK", fullname: "Danish krone" }, { name: "GBP", fullname: "Pound sterling" }, { name: "HUF", fullname: "Hungarian forint" }, { name: "PLN", fullname: "Polish zloty" }, { name: "RON", fullname: "Romanian leu" }, { name: "SEK", fullname: "Swedish krona" }, { name: "CHF", fullname: "Swiss franc" }, { name: "NOK", fullname: "Norwegian krone" }, { name: "HRK", fullname: "Croatian kuna" }, { name: "RUB", fullname: "Russian rouble" }, { name: "TRY", fullname: "Turkish lira" }, { name: "AUD", fullname: "Australian dollar" }, { name: "BRL", fullname: "Brazilian real" }, { name: "CAD", fullname: "Canadian dollar" }, { name: "CNY", fullname: "Chinese yuan renminbi" }, { name: "HKD", fullname: "Hong Kong dollar" }, { name: "IDR", fullname: "Indonesian rupiah" }, { name: "ILS", fullname: "Israeli shekel" }, { name: "INR", fullname: "Indian rupee" }, { name: "KRW", fullname: "South Korean won" }, { name: "MXN", fullname: "Mexican peso" }, { name: "MYR", fullname: "Malaysian ringgit" }, { name: "NZD", fullname: "New Zealand dollar" }, { name: "PHP", fullname: "Philippine peso" }, { name: "SGD", fullname: "Singapore dollar" }, { name: "THB", fullname: "Thai baht" }, { name: "ZAR", fullname: "South African rand" }, { name: "ISK", fullname: "Icelandic krona" }];
+var countries = exports.countries = [{ name: "", fullname: "Choose a currency" }, { name: "AUD", fullname: "Australian dollar" }, { name: "BGN", fullname: "Bulgarian lev" }, { name: "BRL", fullname: "Brazilian real" }, { name: "CAD", fullname: "Canadian dollar" }, { name: "CHF", fullname: "Swiss franc" }, { name: "CNY", fullname: "Chinese yuan renminbi" }, { name: "CZK", fullname: "Czech koruna" }, { name: "DKK", fullname: "Danish krone" }, { name: "EUR", fullname: "Euro Member Countries" }, { name: "GBP", fullname: "Pound sterling" }, { name: "HKD", fullname: "Hong Kong dollar" }, { name: "HRK", fullname: "Croatian kuna" }, { name: "HUF", fullname: "Hungarian forint" }, { name: "IDR", fullname: "Indonesian rupiah" }, { name: "ILS", fullname: "Israeli shekel" }, { name: "INR", fullname: "Indian rupee" }, { name: "JPY", fullname: "Japanese yen" }, { name: "KRW", fullname: "South Korean won" }, { name: "MXN", fullname: "Mexican peso" }, { name: "MYR", fullname: "Malaysian ringgit" }, { name: "NOK", fullname: "Norwegian krone" }, { name: "NZD", fullname: "New Zealand dollar" }, { name: "PHP", fullname: "Philippine peso" }, { name: "PLN", fullname: "Polish zloty" }, { name: "RON", fullname: "Romanian leu" }, { name: "RUB", fullname: "Russian rouble" }, { name: "SEK", fullname: "Swedish krona" }, { name: "SGD", fullname: "Singapore dollar" }, { name: "THB", fullname: "Thai baht" }, { name: "TRY", fullname: "Turkish lira" }, { name: "USD", fullname: "US dollar" }, { name: "ZAR", fullname: "South African rand" }];
 
 // export const countries = [
 //       {
@@ -13190,7 +13200,7 @@ var Currency = function (_React$Component) {
 				return _react2.default.createElement(
 					'label',
 					{ key: idx,
-						onDoubleClick: _this2.handleDelete.bind(_this2, idx) },
+						onClick: _this2.handleDelete.bind(_this2, idx) },
 					val
 				);
 			});
@@ -13203,7 +13213,7 @@ var Currency = function (_React$Component) {
 					'Currency ',
 					money,
 					_react2.default.createElement('br', null),
-					'Double click to remove any unnecessary currency'
+					'Click to remove any unnecessary currency'
 				),
 				_react2.default.createElement(
 					'select',
@@ -13281,7 +13291,8 @@ var ShowItems = function (_React$Component) {
     }, {
         key: 'handleDoubleClick',
         value: function handleDoubleClick(idx, e) {
-            this.props.dispatch((0, _actions.delItem)(idx));
+            // cancel double click for deleting
+            // this.props.dispatch( delItem(idx) );
         }
     }, {
         key: 'render',
